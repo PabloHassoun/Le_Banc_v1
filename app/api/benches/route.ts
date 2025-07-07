@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { checkAndAwardBadges } from '@/lib/badgeChecker'
 
 export async function GET(request: NextRequest) {
   try {
@@ -116,6 +117,9 @@ export async function POST(request: NextRequest) {
         }
       }
     })
+
+    // Vérifier et attribuer des badges après création d'un banc
+    await checkAndAwardBadges(session.user.id);
 
     return NextResponse.json(bench, { status: 201 })
   } catch (error) {

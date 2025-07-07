@@ -47,11 +47,12 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts Account[]
-  sessions Session[]
-  benches  Bench[]
-  likes    Like[]
-  comments Comment[]
+  accounts   Account[]
+  sessions   Session[]
+  benches    Bench[]
+  likes      Like[]
+  comments   Comment[]
+  userBadges UserBadge[]
 }
 
 model VerificationToken {
@@ -101,4 +102,31 @@ model Comment {
 
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   bench Bench @relation(fields: [benchId], references: [id], onDelete: Cascade)
+}
+
+model Badge {
+  id          String @id @default(cuid())
+  name        String @unique
+  description String
+  icon        String
+  color       String @default("#3B82F6")
+  category    String
+  criteria    Json
+  rarity      String @default("common")
+  createdAt   DateTime @default(now())
+
+  userBadges UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  unlockedAt DateTime @default(now())
+  progress  Json?
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
 }
