@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Le Banc - Réseau Social des Bancs
 
-## Getting Started
+Le Banc est un réseau social permettant aux utilisateurs de partager et découvrir des bancs avec leur géolocalisation.
 
-First, run the development server:
+## Structure du projet
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+frontend/
+├── app/
+│   ├── api/auth/          # API routes d'authentification
+│   ├── auth/              # Pages d'authentification
+│   ├── dashboard/         # Dashboard utilisateur
+│   ├── layout.tsx         # Layout principal
+│   └── page.tsx           # Page d'accueil
+├── components/ui/         # Composants UI réutilisables
+├── lib/                   # Utilitaires et configuration
+├── prisma/               # Schéma de base de données
+└── types/                # Types TypeScript
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Configuration requise
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Base de données PostgreSQL**
+   - Créer une base de données nommée `lebanc`
+   - Modifier l'URL de connexion dans `.env.local`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Variables d'environnement**
+   - Copier et modifier `.env.local` avec vos valeurs
 
-## Learn More
+3. **Initialisation de la base de données**
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+## Démarrage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Fonctionnalités implémentées
 
-## Deploy on Vercel
+✅ **Authentification**
+- Inscription/connexion avec email/mot de passe
+- Session management avec NextAuth.js
+- Protection des routes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+✅ **Base de données**
+- Modèles User, Bench, Like, Comment
+- Relations entre entités
+- Indexation géospatiale
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+✅ **Interface utilisateur**
+- Page d'accueil attractive
+- Formulaires d'authentification
+- Dashboard utilisateur de base
+- Composants UI réutilisables
+
+## Prochaines étapes
+
+🔄 **À développer**
+- Upload et gestion d'images
+- Carte interactive avec géolocalisation
+- CRUD complet des bancs
+- Système de recherche et filtres
+- Interface mobile optimisée
+
+## Technologies utilisées
+
+- **Framework**: Next.js 15 avec App Router
+- **Base de données**: PostgreSQL avec Prisma ORM
+- **Authentification**: NextAuth.js
+- **UI**: Tailwind CSS
+- **Validation**: Zod
+- **Formulaires**: React Hook Form
+
+## Architecture
+
+Le projet utilise l'architecture moderne de Next.js avec:
+- Server Components pour la performance
+- Client Components pour l'interactivité
+- API Routes pour les endpoints backend
+- Middleware pour la protection des routes
